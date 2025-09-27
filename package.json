@@ -1,0 +1,19 @@
+{
+  "name": "haven-anxiety",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "purge": "purgecss --css css/haven-anxiety.webflow.shared.0162c8c30.css --content index.html js/*.js --output css/purged.css --safelist \"w-*\" \"w-icon-*\" \"w-layout-*\" \"w-node-*\" \"w-nav-*\" \"w-button*\" \"w-inline-block\" \"active\" \"open\" \"show\" \"hide\" \"visible\" \"hidden\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "purgecss": "^7.0.2"
+  },
+  "dependencies": {
+    "gsap": "^3.13.0"
+  }
+}
