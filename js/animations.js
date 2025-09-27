@@ -214,9 +214,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     const dialogueMessages = chatContainer.querySelectorAll('.frame-60');
                     gsap.to(dialogueMessages, {
                         opacity: 0,
-                        y: -20,
                         scale: 0.95,
-                        duration: 0.8,
+                        duration: 0.6,
                         ease: "power2.in",
                         onComplete: () => {
                             // Remove messages from DOM
