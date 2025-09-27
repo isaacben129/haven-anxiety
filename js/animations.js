@@ -44,7 +44,19 @@ document.addEventListener('DOMContentLoaded', function() {
         "Let's focus on your breathing. Can you take three slow, deep breaths with me?"
     ];
 
-    function createMessageBubble(message, isUser = true, useTypewriter = false) {
+    // Different avatar images for each dialogue
+    const avatarImages = [
+        'images/group-17.svg',  // Default avatar (green circle with person)
+        'images/group-6.svg',   // Different avatar (complex design)
+        'images/group-8.svg',   // Different avatar
+        'images/group-10.svg',  // Different avatar
+        'images/group-12.svg',  // Different avatar
+        'images/group-14.svg',  // Different avatar
+        'images/group-17.svg',  // Back to default
+        'images/group-6.svg'    // Cycle through
+    ];
+
+    function createMessageBubble(message, isUser = true, useTypewriter = false, avatarSrc = 'images/group-17.svg') {
         const messageDiv = document.createElement('div');
         messageDiv.className = `frame-60 ${isUser ? 'right' : ''}`;
         
@@ -62,12 +74,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         const avatarImg = document.createElement('img');
-        avatarImg.src = 'images/group-17.svg';
+        avatarImg.src = avatarSrc;
         avatarImg.className = 'group-17';
         avatarImg.loading = 'lazy';
         avatarImg.width = '48';
         avatarImg.height = '48';
         avatarImg.alt = '';
+        
+        // Debug logging
+        console.log(`Creating message bubble with avatar: ${avatarSrc}`);
         
         if (isUser) {
             textboxDiv.appendChild(textDiv);
@@ -124,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function showDialogue(userMessage, aiResponse) {
+    function showDialogue(userMessage, aiResponse, avatarIndex) {
         // Clear any existing messages first
         clearChatContainer();
         
@@ -144,14 +159,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 delay: 0.5,
                 onComplete: () => {
                     // After typing is complete, animate send button click
-                    animateSendButtonClick(userMessage, aiResponse);
+                    animateSendButtonClick(userMessage, aiResponse, avatarIndex);
                 }
             });
 
         }, 600); // Wait for clear animation to complete
     }
 
-    function animateSendButtonClick(userMessage, aiResponse) {
+    function animateSendButtonClick(userMessage, aiResponse, avatarIndex) {
         const sendButton = document.querySelector('.send-button');
         
         // Animate send button click
@@ -163,14 +178,18 @@ document.addEventListener('DOMContentLoaded', function() {
             repeat: 1,
             onComplete: () => {
                 // After click animation, transition the message upward
-                transitionUserMessageUpward(userMessage, aiResponse);
+                transitionUserMessageUpward(userMessage, aiResponse, avatarIndex);
             }
         });
     }
 
-    function transitionUserMessageUpward(userMessage, aiResponse) {
+    function transitionUserMessageUpward(userMessage, aiResponse, avatarIndex) {
+        // Get the avatar for this dialogue
+        const userAvatar = avatarImages[avatarIndex];
+        const aiAvatar = avatarImages[avatarIndex]; // Same avatar for both user and AI in this dialogue
+        
         // Create user message bubble in chat area
-        const userBubble = createMessageBubble(userMessage, true, false); // No typewriter effect since it's already typed
+        const userBubble = createMessageBubble(userMessage, true, false, userAvatar); // No typewriter effect since it's already typed
         chatContainer.appendChild(userBubble);
         
         // Clear the input textbox
@@ -185,7 +204,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         setTimeout(() => {
             // Show typing indicator first
-            const typingIndicator = createMessageBubble('Haven is typing...', false, false);
+            const typingIndicator = createMessageBubble('Haven is typing...', false, false, aiAvatar);
             chatContainer.appendChild(typingIndicator);
             animateMessageIn(typingIndicator);
 
@@ -238,8 +257,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (currentDialogueIndex < userMessages.length) {
             const userMessage = userMessages[currentDialogueIndex];
             const aiResponse = responses[currentDialogueIndex % responses.length];
+            const avatarIndex = currentDialogueIndex % avatarImages.length;
             
-            showDialogue(userMessage, aiResponse);
+            // Debug logging
+            console.log(`Dialogue ${currentDialogueIndex + 1}: Using avatar ${avatarIndex} - ${avatarImages[avatarIndex]}`);
+            
+            showDialogue(userMessage, aiResponse, avatarIndex);
             currentDialogueIndex++;
         } else {
             // Reset to beginning for continuous loop
