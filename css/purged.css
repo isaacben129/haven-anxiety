@@ -893,7 +893,6 @@ label {
 .button-primary {
   grid-column-gap: 10px;
   background-color: #77c49a;
-  border: 1px solid #87cda7;
   border-radius: 16px;
   flex: 0 auto;
   justify-content: center;
@@ -1648,7 +1647,7 @@ label {
   .h1-style {
     font-size: 2.2rem;
   }
-  
+
   .h1-style.about-h1{
     font-size: 2.2rem;
   }
