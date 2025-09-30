@@ -44,6 +44,7 @@ audio:not([controls]) {
 
 a {
   background-color: #0000;
+  color: inherit;
 }
 
 a:active, a:hover {
@@ -849,7 +850,7 @@ label {
   border-radius: 16px;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  /* align-items: flex-start; */
   width: 100%;
   min-height: 40px;
   max-height: 120px;
@@ -874,7 +875,7 @@ label {
   display: flex;
   align-items: center;
   height: 20px;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 
 .send-icon {
@@ -1282,7 +1283,7 @@ body {
   justify-content: flex-end;
 }
 
-.footer-link-list {
+.footer-link-list, .horizontal-mobile {
   grid-column-gap: 1.5rem;
   grid-row-gap: 1.5rem;
   justify-content: flex-start;
@@ -1394,6 +1395,7 @@ body {
 }
 
 
+
 .legal-underline {
   text-decoration: underline;
 }
@@ -1460,7 +1462,7 @@ body {
 
   .textbox-r-2, .textbox-chat {
     justify-content: center;
-    align-items: center;
+    /* align-items: center; */
   }
 
   .text-6, .feature-textbox {
@@ -1532,7 +1534,12 @@ body {
     max-width: 417px;
     margin: 60px 0;
   }
-
+  .list-wrapper {
+    justify-content: center;
+    align-items: center;
+    grid-row-gap: 1rem;
+    padding-top: 0.5rem;
+  }
   .contact-section {
     height: auto;
     padding-top: 7rem;
@@ -1576,10 +1583,12 @@ body {
     grid-row-gap: 1rem;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
+    flex-direction: row;
   }
   .horizontal-mobile {
     flex-direction: row !important;
+    justify-content: space-around;
+    width: 100%;
   }
 
   .footer-subscribe-form {
