@@ -873,6 +873,7 @@ label {
   overflow-wrap: break-word;
   display: flex;
   align-items: center;
+  height: 20px;
 }
 
 .send-icon {
@@ -1569,12 +1570,15 @@ body {
     grid-row-gap: 2rem;
   }
 
-  .footer-link-list {
+  .footer-link-list, .horizontal-mobile {
     grid-column-gap: 2rem;
-    grid-row-gap: 2rem;
+    grid-row-gap: 1rem;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+  }
+  .horizontal-mobile {
+    flex-direction: row !important;
   }
 
   .footer-subscribe-form {
@@ -1611,9 +1615,6 @@ body {
     border-color: var(--medium-gray);
   }
 
-  .subscribe-text-wrapper {
-    text-align: center;
-  }
 
   .subscribe-form {
     justify-content: flex-start;

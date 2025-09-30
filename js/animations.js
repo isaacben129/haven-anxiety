@@ -207,7 +207,8 @@ document.addEventListener('DOMContentLoaded', function() {
     gsap.set('.textbox-r-2, .textbox-chat, .send-button', {
         opacity: 1,
         y: 0,
-        scale: 1
+        scale: 1,
+        height: 'auto',
     });
 
     // Section 1
