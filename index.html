@@ -37,7 +37,7 @@
     <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon" />
     <link href="images/app-icon.png" rel="apple-touch-icon" />
   </head>
-  <body class="body">
+  <body>
     <div class="body-wrapper">
       <section class="section-hero">
         <div class="nav">
@@ -110,10 +110,10 @@
                 </div>
                 <div class="send-button">
                   <img
-                    src="images/microphone-alt-svgrepo-com-3.svg"
+                    src="images/send-icon.svg"
                     loading="lazy"
                     alt=""
-                    class="image"
+                    class="image send-icon"
                   />
                 </div>
               </div>
@@ -222,52 +222,29 @@
             </div>
             <div class="div-block">
               <div class="w-layout-vflex flex-block">
-                <div class="frame-62">
-                  <div class="frame-60 right">
-                    <div class="textbox-r">
-                      <div class="chat-text-m">
-                        I feel kind of anxious right now.
+                <div class="feature-chat-wrapper">
+                  <div
+                    class="feature-chat"
+                    style="max-height: 300px; overflow-y: auto"
+                  ></div>
+                  <div class="frame-74">
+                    <div class="textbox-chat">
+                      <div
+                        class="feature-textbox"
+                        contenteditable="true"
+                        style="outline: none; min-height: 20px"
+                      >
+                        Type your message here...
                       </div>
                     </div>
-                    <img
-                      src="images/group-17.svg"
-                      loading="lazy"
-                      width="48"
-                      height="48"
-                      alt=""
-                      class="group-17"
-                    />
-                  </div>
-                  <div class="frame-60">
-                    <img
-                      src="images/group-17.svg"
-                      loading="lazy"
-                      width="48"
-                      height="48"
-                      alt=""
-                      class="group-17"
-                    />
-                    <div class="textbox-l">
-                      <div class="chat-text-m">
-                        I hear you. Do you want to talk it through or try a
-                        calming exercise together?
-                      </div>
+                    <div class="send-button">
+                      <img
+                        src="images/send-icon.svg"
+                        loading="lazy"
+                        alt=""
+                        class="image send-icon"
+                      />
                     </div>
-                  </div>
-                  <div class="frame-60 right">
-                    <div class="textbox-r">
-                      <div class="chat-text-m">
-                        I feel kind of anxious right now.
-                      </div>
-                    </div>
-                    <img
-                      src="images/group-17.svg"
-                      loading="lazy"
-                      width="48"
-                      height="48"
-                      alt=""
-                      class="group-17"
-                    />
                   </div>
                 </div>
               </div>
@@ -354,27 +331,40 @@
             id="w-node-_0f5c3fc1-0eb3-4a51-b9ea-7d03f1e2a890-0712f2b4"
             class="footer-content-wrapper"
           >
-            <div class="footer-link-list">
-              <a href="#" class="footer-link w-inline-block"
-                ><div class="p">Home</div></a
-              ><a href="#" class="footer-link w-inline-block"
-                ><div class="p">How it works</div></a
-              ><a href="#" class="footer-link w-inline-block"
-                ><div class="p">Whitepaper</div></a
-              >
-            </div>
-            <div class="subscribe-form">
+            <div class="list-wrapper">
               <div class="subscribe-text-wrapper">
-                <div class="strong">Subscribe to our newsletter</div>
+                <div class="strong">Pages</div>
               </div>
-              <div class="footer-subscribe-form">
-                <div class="w-layout-vflex">
-                  <a href="#" class="button-secondary w-button">Subscribe</a>
-                </div>
-                <div class="legal-text">
-                  By subscribing you agree to with our
-                  <span class="legal-underline">Privacy Policy</span>
-                </div>
+              <div class="footer-link-list">
+                <a href="#" class="footer-link w-inline-block"
+                  ><div class="p">Home</div></a
+                ><a href="#" class="footer-link w-inline-block"
+                  ><div class="p">How it works</div></a
+                ><a href="#" class="footer-link w-inline-block"
+                  ><div class="p">Whitepaper</div></a
+                >
+              </div>
+            </div>
+            <div class="list-wrapper">
+              <div class="subscribe-text-wrapper">
+                <div class="strong">Socials</div>
+              </div>
+              <div class="footer-link-list">
+                <a href="#" class="footer-link w-inline-block">
+                  <div class="p" style="width: 24px">
+                    <img src="/images/Link-1.png" alt="" />
+                  </div>
+                </a>
+                <a href="#" class="footer-link w-inline-block">
+                  <div class="p" style="width: 24px">
+                    <img src="/images/Link-2.png" alt="" />
+                  </div>
+                </a>
+                <a href="#" class="footer-link w-inline-block">
+                  <div class="p" style="width: 24px">
+                    <img src="/images/Link-3.png" alt="" />
+                  </div>
+                </a>
               </div>
             </div>
           </div>
@@ -387,14 +377,21 @@
                 ><div class="legal-text">
                   <span class="legal-underline">Privacy policy</span>
                 </div></a
-              ><a href="#" class="legal-link w-inline-block"
+              >
+              <a href="#" class="legal-link w-inline-block"
                 ><div class="legal-text">
                   <span class="legal-underline">Cookies settings</span>
                 </div></a
               >
             </div>
-            <div class="copyright">
-              <div class="legal-text">© 2025 Haven. All rights reserved.</div>
+            <div class="disclaimer">
+              <div class="legal-text">
+                <p>
+                  Haven is not a substitute for professional therapy, If you
+                  feel like harming yourself please find help
+                  <span class="legal-underline"><a href="#">here</a></span>
+                </p>
+              </div>
             </div>
           </div>
         </div>

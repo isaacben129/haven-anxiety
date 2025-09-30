@@ -1,6 +1,202 @@
 // GSAP Animations for Haven Anxiety Chat Interface
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Set initial state - hide input area and existing messages
+    gsap.registerPlugin(ScrollTrigger);
+
+    // =============================
+    // Reusable Dialogue System
+    // =============================
+    function createDialogueSystem(chatContainerSelector, textboxSelector, messages, responses, avatars) {
+        const chatContainer = chatContainerSelector;
+        let currentDialogueIndex = 0;
+
+        // Utility functions
+        function createMessageBubble(message, isUser = true, useTypewriter = false, avatarSrc = 'images/group-17.svg', aiSrc = 'images/group-17.svg', textboxSelector) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `frame-60 ${isUser ? 'right' : ''}`;
+            
+            const textboxDiv = document.createElement('div');
+            textboxDiv.className = isUser ? 'textbox-r' : 'textbox-l';
+            
+            const textDiv = document.createElement('div');
+            textDiv.className = 'chat-text-m';
+            textDiv.textContent = useTypewriter ? '' : message;
+
+            const aiimg = document.createElement('img');
+            aiimg.src = aiSrc;
+            aiimg.className = 'group-17';
+            aiimg.width = '48'; aiimg.height = '48';
+            
+            const avatarImg = document.createElement('img');
+            avatarImg.src = avatarSrc;
+            avatarImg.className = 'group-17';
+            avatarImg.width = '48'; avatarImg.height = '48';
+
+            if (isUser) {
+                textboxDiv.appendChild(textDiv);
+                messageDiv.appendChild(textboxDiv);
+                messageDiv.appendChild(avatarImg);
+            } else {
+                messageDiv.appendChild(aiimg);
+                textboxDiv.appendChild(textDiv);
+                messageDiv.appendChild(textboxDiv);
+            }
+
+            if (useTypewriter) {
+                gsap.to(textDiv, {
+                    text: message,
+                    duration: message.length * 0.03,
+                    ease: "none",
+                    delay: 0.5
+                });
+            }
+
+            return messageDiv;
+        }
+
+        function clearChatContainer() {
+            const existingMessages = chatContainer.querySelectorAll('.frame-60');
+            if (existingMessages.length > 0) {
+                gsap.to(existingMessages, {
+                    opacity: 0,
+                    y: -20,
+                    scale: 0.95,
+                    duration: 0.8,
+                    ease: "power1.inOut",
+                    onComplete: () => {
+                        existingMessages.forEach(msg => msg.remove());
+                    }
+                });
+            }
+        }
+
+        function animateMessageIn(messageElement) {
+            gsap.fromTo(messageElement, {
+                opacity: 0,
+                y: 20,
+                scale: 0.95
+            }, {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.6,
+                ease: "power2.inOut"
+            });
+        }
+
+        function showDialogue(userMessage, aiResponse, avatarIndex) {
+            clearChatContainer();
+
+            setTimeout(() => {
+                const inputText = textboxSelector
+                inputText.textContent = '';
+                inputText.style.color = '#464a48';
+
+                gsap.to(inputText, {
+                    text: userMessage,
+                    duration: userMessage.length * 0.03,
+                    ease: "none",
+                    delay: 0.5,
+                    onComplete: () => {
+                        animateSendButtonClick(userMessage, aiResponse, avatarIndex);
+                    }
+                });
+            }, 600);
+        }
+
+        function animateSendButtonClick(userMessage, aiResponse, avatarIndex) {
+            const sendButton = document.querySelector('.send-button');
+            gsap.to(sendButton, {
+                scale: 0.95,
+                duration: 0.3,
+                ease: "power2.out",
+                yoyo: true,
+                repeat: 1,
+                color: 'blue',
+                onComplete: () => {
+                    transitionUserMessageUpward(userMessage, aiResponse, avatarIndex);
+                }
+            });
+        }
+
+        function transitionUserMessageUpward(userMessage, aiResponse, avatarIndex) {
+            const userAvatar = avatars[avatarIndex];
+            const aiAvatar = avatars[avatarIndex];
+
+            const userBubble = createMessageBubble(userMessage, true, false, userAvatar);
+            chatContainer.appendChild(userBubble);
+
+            const inputText = textboxSelector
+            inputText.textContent = '';
+
+            animateMessageIn(userBubble);
+
+            const aiResponseDelay = 800 + Math.random() * 1000;
+
+            setTimeout(() => {
+                const typingIndicator = createMessageBubble('Haven is typing...', false, false, aiAvatar);
+                chatContainer.appendChild(typingIndicator);
+                animateMessageIn(typingIndicator);
+
+                setTimeout(() => {
+                    const textElement = typingIndicator.querySelector('.chat-text-m');
+                    textElement.textContent = '';
+
+                    gsap.to(textElement, {
+                        text: aiResponse,
+                        duration: aiResponse.length * 0.03,
+                        ease: "none"
+                    });
+
+                    const aiTypingTime = aiResponse.length * 0.03 * 1000;
+                    const displayTime = 3000;
+                    const totalDialogueTime = aiTypingTime + displayTime;
+
+                    setTimeout(() => {
+                        const dialogueMessages = chatContainer.querySelectorAll('.frame-60');
+                        gsap.to(dialogueMessages, {
+                            opacity: 0,
+                            scale: 0.95,
+                            duration: 0.6,
+                            ease: "power2.in",
+                            onComplete: () => {
+                                dialogueMessages.forEach(msg => msg.remove());
+                                showNextDialogue();
+                            }
+                        });
+                    }, totalDialogueTime);
+
+                }, 1500 + Math.random() * 1000);
+
+            }, aiResponseDelay);
+        }
+
+        function showNextDialogue() {
+            if (currentDialogueIndex < messages.length) {
+                const userMessage = messages[currentDialogueIndex];
+                const aiResponse = responses[currentDialogueIndex % responses.length];
+                const avatarIndex = currentDialogueIndex % avatars.length;
+                showDialogue(userMessage, aiResponse, avatarIndex);
+                currentDialogueIndex++;
+            } else {
+                currentDialogueIndex = 0;
+                showNextDialogue();
+            }
+        }
+
+        function start() {
+            setTimeout(() => {
+                showNextDialogue();
+            }, 1500);
+        }
+
+        return { start };
+    }
+
+    // =============================
+    // Example Usage
+    // =============================
+
     gsap.set('.textbox-r, .textbox-l', {
         opacity: 0,
         y: 20,
@@ -8,20 +204,20 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Show the input area and send button
-    gsap.set('.textbox-r-2, .send-button', {
+    gsap.set('.textbox-r-2, .textbox-chat, .send-button', {
         opacity: 1,
         y: 0,
         scale: 1
     });
 
-    // Chat functionality
+    // Section 1
     const chatContainer = document.querySelector('.frame-62');
     
     // Disable scrollbars in the chat container
     chatContainer.style.overflow = 'hidden';
 
     // User messages for the dialogue system
-    const userMessages = [
+    const anxietyMsgs = [
         "I feel kind of anxious right now.",
         "I can't stop worrying about everything.",
         "My heart is racing and I can't calm down.",
@@ -33,7 +229,7 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     // AI responses for the dialogue system
-    const responses = [
+    const anxietyRes = [
         "I hear you. Let's take a moment to breathe together. Can you tell me what's making you feel anxious right now?",
         "That sounds really difficult. You're not alone in this. What would feel most helpful right now?",
         "I understand. Sometimes just talking about it can help. What's on your mind?",
@@ -45,255 +241,59 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     // Different avatar images for each dialogue
-    const avatarImages = [
-        'images/group-17.svg',  // Default avatar (green circle with person)
-        'images/group-6.svg',   // Different avatar (complex design)
-        'images/group-8.svg',   // Different avatar
-        'images/group-10.svg',  // Different avatar
-        'images/group-12.svg',  // Different avatar
-        'images/group-14.svg',  // Different avatar
-        'images/group-17.svg',  // Back to default
-        'images/group-6.svg'    // Cycle through
+    const anxietyAvatars = [
+        'images/Frame 18.webp',  // Default avatar (green circle with person)
+        'images/Frame 19.webp',   // Different avatar (complex design)
+        'images/Frame 20.webp',   // Different avatar
+        'images/Frame 21.webp',   // Different avatar
+        'images/Frame 22.webp',   // Different avatar
+        'images/Frame 23.webp',   // Different avatar
+        'images/Frame 20.webp',   // Different avatar
+        'images/Frame 18.webp',   // Different avatar
     ];
 
-    function createMessageBubble(message, isUser = true, useTypewriter = false, avatarSrc = 'images/group-17.svg', aiSrc = 'images/group-17.svg') {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `frame-60 ${isUser ? 'right' : ''}`;
-        
-        const textboxDiv = document.createElement('div');
-        textboxDiv.className = isUser ? 'textbox-r' : 'textbox-l';
-        
-        const textDiv = document.createElement('div');
-        textDiv.className = 'chat-text-m';
-        
-        // If using typewriter effect, start with empty text
-        if (useTypewriter) {
-            textDiv.textContent = '';
-        } else {
-            textDiv.textContent = message;
-        }
+    const anxietyText = document.querySelector('.text-6');
 
-        const aiimg = document.createElement('img');
-        aiimg.src = aiSrc;
-        aiimg.className = 'group-17';
-        aiimg.loading = 'lazy';
-        aiimg.width = '48';
-        aiimg.height = '48';
-        aiimg.alt = '';
-        const avatarImg = document.createElement('img');
-        avatarImg.src = avatarSrc;
-        avatarImg.className = 'group-17';
-        avatarImg.loading = 'lazy';
-        avatarImg.width = '48';
-        avatarImg.height = '48';
-        avatarImg.alt = '';
-        
-        // Debug logging
-        console.log(`Creating message bubble with avatar: ${avatarSrc}`);
-        
-        if (isUser) {
-            textboxDiv.appendChild(textDiv);
-            messageDiv.appendChild(textboxDiv);
-            messageDiv.appendChild(avatarImg);
-        } else {
-            messageDiv.appendChild(aiimg);
-            textboxDiv.appendChild(textDiv);
-            messageDiv.appendChild(textboxDiv);
-        }
-        
-        // Add typewriter effect if requested
-        if (useTypewriter) {
-            gsap.to(textDiv, {
-                text: message,
-                duration: message.length * 0.03, // Speed based on message length
-                ease: "none",
-                delay: 0.5 // Small delay before typing starts
-            });
-        }
-        
-        return messageDiv;
-    }
+    const anxietyChat = createDialogueSystem(chatContainer, anxietyText, anxietyMsgs, anxietyRes, anxietyAvatars);
 
-    function clearChatContainer() {
-        // Fade out all existing messages
-        const existingMessages = chatContainer.querySelectorAll('.frame-60');
-        if (existingMessages.length > 0) {
-            gsap.to(existingMessages, {
-                opacity: 0,
-                y: -20,
-                scale: 0.95,
-                duration: 0.5,
-                ease: "power2.in",
-                onComplete: () => {
-                    // Remove all messages from DOM
-                    existingMessages.forEach(msg => msg.remove());
-                }
-            });
-        }
-    }
+    // Section 2
+    const motivationMsgs = [
+        "I feel like giving up.",
+        "Nothing seems to work out."
+    ];
+    const motivationRes = [
+        "Progress takes time, you’re stronger than you think.",
+        "Let’s break it into small steps together."
+    ];
+    const motivationAvatars = ["images/Frame 22.webp", "images/Frame 23.webp"];
 
-    function animateMessageIn(messageElement) {
-        gsap.fromTo(messageElement, {
-            opacity: 0,
-            y: 20,
-            scale: 0.95
-        }, {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.5,
-            ease: "power2.out"
-        });
-    }
+    const featureContainer = document.querySelector('.feature-chat')
 
-    function showDialogue(userMessage, aiResponse, avatarIndex) {
-        // Clear any existing messages first
-        clearChatContainer();
-        
-        // Wait for clear animation to complete, then show new dialogue
-        setTimeout(() => {
-            // First, show user message in the input textbox with typewriter effect
-            const inputText = document.querySelector('.text-6');
-            const sendButton = document.querySelector('.send-button');
-            inputText.textContent = '';
-            inputText.style.color = '#464a48';
-            
-            // Type the user message in the input box
-            gsap.to(inputText, {
-                text: userMessage,
-                duration: userMessage.length * 0.03,
-                ease: "none",
-                delay: 0.5,
-                onComplete: () => {
-                    // After typing is complete, animate send button click
-                    animateSendButtonClick(userMessage, aiResponse, avatarIndex);
-                }
-            });
+    const motivationText = document.querySelector('.feature-textbox');    
 
-        }, 600); // Wait for clear animation to complete
-    }
+    const motivationChat = createDialogueSystem(featureContainer, motivationText, motivationMsgs, motivationRes, motivationAvatars);
 
-    function animateSendButtonClick(userMessage, aiResponse, avatarIndex) {
-        const sendButton = document.querySelector('.send-button');
-        
-        // Animate send button click
-        gsap.to(sendButton, {
-            scale: 0.95,
-            duration: 0.3,
-            ease: "power2.out",
-            yoyo: true,
-            repeat: 1,
-            onComplete: () => {
-                // After click animation, transition the message upward
-                transitionUserMessageUpward(userMessage, aiResponse, avatarIndex);
-            }
-        });
-    }
+    // Trigger them via ScrollTrigger
+    /*ScrollTrigger.create({
+        trigger: ".frame-62",
+        start: "top center",
+        once: true,
+        onEnter: () => anxietyChat.start()
+    });*/
+    featureContainer.style.overflow = 'hidden';
 
-    function transitionUserMessageUpward(userMessage, aiResponse, avatarIndex) {
-        // Get the avatar for this dialogue
-        const userAvatar = avatarImages[avatarIndex];
-        const aiAvatar = avatarImages[avatarIndex]; // Same avatar for both user and AI in this dialogue
-        
-        // Create user message bubble in chat area
-        const userBubble = createMessageBubble(userMessage, true, false, userAvatar); // No typewriter effect since it's already typed
-        chatContainer.appendChild(userBubble);
-        
-        // Clear the input textbox
-        const inputText = document.querySelector('.text-6');
-        inputText.textContent = '';
-        
-        // Animate the user message appearing in chat area
-        animateMessageIn(userBubble);
+    ScrollTrigger.create({
+        trigger: ".frame-62",
+        start: "top center",
+        once: true,
+        onEnter: () => anxietyChat.start()
+    });
 
-        // Calculate delay for AI response
-        const aiResponseDelay = 1000 + Math.random() * 1000; // 1-2 seconds after user message appears
-
-        setTimeout(() => {
-            // Show typing indicator first
-            const typingIndicator = createMessageBubble('Haven is typing...', false, false, aiAvatar);
-            chatContainer.appendChild(typingIndicator);
-            animateMessageIn(typingIndicator);
-
-            // Show AI response after typing indicator
-            setTimeout(() => {
-                // Instead of replacing, update the existing typing indicator content
-                const textElement = typingIndicator.querySelector('.chat-text-m');
-                
-                // Clear the typing text and start typing the AI response
-                textElement.textContent = '';
-                
-                // Use typewriter effect to show AI response in the same bubble
-                gsap.to(textElement, {
-                    text: aiResponse,
-                    duration: aiResponse.length * 0.03,
-                    ease: "none"
-                });
-
-                // Calculate total time for this dialogue display
-                const aiTypingTime = aiResponse.length * 0.03 * 1000;
-                const displayTime = 3000; // Show completed dialogue for 3 seconds
-                const totalDialogueTime = aiTypingTime + displayTime;
-
-                // Fade out the entire dialogue after completion
-                setTimeout(() => {
-                    const dialogueMessages = chatContainer.querySelectorAll('.frame-60');
-                    gsap.to(dialogueMessages, {
-                        opacity: 0,
-                        scale: 0.95,
-                        duration: 0.6,
-                        ease: "power2.in",
-                        onComplete: () => {
-                            // Remove messages from DOM
-                            dialogueMessages.forEach(msg => msg.remove());
-                            // Start next dialogue
-                            showNextDialogue();
-                        }
-                    });
-                }, totalDialogueTime);
-
-            }, 1500 + Math.random() * 1000); // Typing indicator shows for 1.5-2.5 seconds
-
-        }, aiResponseDelay);
-    }
-
-    // Dialogue system
-    let currentDialogueIndex = 0;
-
-    function showNextDialogue() {
-        if (currentDialogueIndex < userMessages.length) {
-            const userMessage = userMessages[currentDialogueIndex];
-            const aiResponse = responses[currentDialogueIndex % responses.length];
-            const avatarIndex = currentDialogueIndex % avatarImages.length;
-            
-            // Debug logging
-            console.log(`Dialogue ${currentDialogueIndex + 1}: Using avatar ${avatarIndex} - ${avatarImages[avatarIndex]}`);
-            
-            showDialogue(userMessage, aiResponse, avatarIndex);
-            currentDialogueIndex++;
-        } else {
-            // Reset to beginning for continuous loop
-            currentDialogueIndex = 0;
-            showNextDialogue();
-        }
-    }
-
-    function startDialogueSystem() {
-        // Start first dialogue after initial delay
-        setTimeout(() => {
-            showNextDialogue();
-        }, 1500);
-    }
-
-    // Start the dialogue system
-    startDialogueSystem();
-
-    // Register ScrollTrigger plugin
-    // gsap.registerPlugin(ScrollTrigger);
-
-    // About section text animation with scroll trigger
-    
-
-    // Setup the scroll-triggered animation
+    ScrollTrigger.create({
+        trigger: ".feature-chat",
+        start: "top center",
+        once: true,
+        onEnter: () => motivationChat.start()
+    });
 
 });
