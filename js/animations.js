@@ -204,11 +204,16 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Show the input area and send button
-    gsap.set('.textbox-r-2, .textbox-chat, .send-button', {
+    gsap.set('.textbox-r-2, .textbox-chat', {
         opacity: 1,
         y: 0,
         scale: 1,
         height: 'auto',
+    });
+    gsap.set('.send-button', {
+        opacity: 1,
+        y: 0,
+        scale: 1,
     });
 
     // Section 1
