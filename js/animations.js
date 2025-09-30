@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'images/group-6.svg'    // Cycle through
     ];
 
-    function createMessageBubble(message, isUser = true, useTypewriter = false, avatarSrc = 'images/group-17.svg') {
+    function createMessageBubble(message, isUser = true, useTypewriter = false, avatarSrc = 'images/group-17.svg', aiSrc = 'images/group-17.svg') {
         const messageDiv = document.createElement('div');
         messageDiv.className = `frame-60 ${isUser ? 'right' : ''}`;
         
@@ -72,7 +72,14 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             textDiv.textContent = message;
         }
-        
+
+        const aiimg = document.createElement('img');
+        aiimg.src = aiSrc;
+        aiimg.className = 'group-17';
+        aiimg.loading = 'lazy';
+        aiimg.width = '48';
+        aiimg.height = '48';
+        aiimg.alt = '';
         const avatarImg = document.createElement('img');
         avatarImg.src = avatarSrc;
         avatarImg.className = 'group-17';
@@ -89,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
             messageDiv.appendChild(textboxDiv);
             messageDiv.appendChild(avatarImg);
         } else {
-            messageDiv.appendChild(avatarImg);
+            messageDiv.appendChild(aiimg);
             textboxDiv.appendChild(textDiv);
             messageDiv.appendChild(textboxDiv);
         }
@@ -172,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Animate send button click
         gsap.to(sendButton, {
             scale: 0.95,
-            duration: 0.1,
+            duration: 0.3,
             ease: "power2.out",
             yoyo: true,
             repeat: 1,
@@ -275,9 +282,18 @@ document.addEventListener('DOMContentLoaded', function() {
         // Start first dialogue after initial delay
         setTimeout(() => {
             showNextDialogue();
-        }, 2000);
+        }, 1500);
     }
 
     // Start the dialogue system
     startDialogueSystem();
+
+    // Register ScrollTrigger plugin
+    // gsap.registerPlugin(ScrollTrigger);
+
+    // About section text animation with scroll trigger
+    
+
+    // Setup the scroll-triggered animation
+
 });

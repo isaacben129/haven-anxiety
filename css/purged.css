@@ -826,11 +826,13 @@ label {
   margin-bottom: 0;
   font-size: 14px;
   font-weight: 400;
-  line-height: 100%;
+  line-height: 120%;
   text-decoration: none;
   word-wrap: break-word;
   white-space: pre-wrap;
   overflow-wrap: break-word;
+  display: flex;
+  align-items: center;
 }
 
 .microphone-alt-svgrepo-com-3 {
@@ -1018,7 +1020,7 @@ label {
 }
 
 .h1-style.about-h1 {
-  color: var(--light-text-alternative);
+  color: var(--dark-gray);
   letter-spacing: 0;
   font-size: 6.4vw;
   line-height: 120%;
