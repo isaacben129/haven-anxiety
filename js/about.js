@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 aboutH1.textContent = originalText;
                 gsap.set(".text-wrapper", {
                     opacity: 1,
-                    y: 100,
+                    y: 0,
                     delay: 2,
                 });
                 gsap.set(".about-h1", {
