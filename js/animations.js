@@ -204,7 +204,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Show the input area and send button
-    gsap.set('.textbox-r-2, .textbox-chat', {
+    gsap.set('.textbox-r-2, .textbox-chat', '.text-6', {
         opacity: 1,
         y: 0,
         scale: 1,

@@ -3,7 +3,75 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Haven Questionnaire</title>
+    <link rel="stylesheet" href="css/quote.css" type="text/css" />
   </head>
-  <body></body>
+  <body>
+    <div class="overlay" id="overlay">
+      <div class="questionnaire">
+        <h1>We’d love your thoughts!</h1>
+        <p class="intro">
+          Your feedback helps us improve. Answer a few quick questions.
+        </p>
+
+        <form id="surveyForm">
+          <div class="question">
+            <label for="q1">How easy was it to use our service?</label>
+            <select id="q1" name="ease">
+              <option value="">Select</option>
+              <option value="very_easy">Very easy</option>
+              <option value="easy">Easy</option>
+              <option value="neutral">Neutral</option>
+              <option value="hard">Hard</option>
+              <option value="very_hard">Very hard</option>
+            </select>
+          </div>
+
+          <div class="question">
+            <label for="q2">Which feature did you enjoy most?</label>
+            <input
+              type="text"
+              id="q2"
+              name="favorite_feature"
+              placeholder="Type your answer here"
+            />
+          </div>
+
+          <div class="question">
+            <label for="q3">How likely are you to recommend us?</label>
+            <select id="q3" name="recommend">
+              <option value="">Select</option>
+              <option value="very_likely">Very likely</option>
+              <option value="likely">Likely</option>
+              <option value="neutral">Neutral</option>
+              <option value="unlikely">Unlikely</option>
+              <option value="very_unlikely">Very unlikely</option>
+            </select>
+          </div>
+
+          <div class="question">
+            <label for="q4">Any ideas to improve?</label>
+            <textarea
+              id="q4"
+              name="improvements"
+              placeholder="Your suggestions"
+            ></textarea>
+          </div>
+
+          <div class="button-wrapper">
+            <button type="submit">Submit Feedback</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      const form = document.getElementById("surveyForm");
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        alert("Thanks for your feedback!");
+        form.reset();
+      });
+    </script>
+  </body>
 </html>
