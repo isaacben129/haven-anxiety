@@ -868,7 +868,7 @@ label {
   margin-bottom: 0;
   font-size: 14px;
   font-weight: 400;
-  line-height: 120%;
+  line-height: 130%;
   text-decoration: none;
   word-wrap: break-word;
   white-space: pre-wrap;
@@ -1286,10 +1286,11 @@ body {
 
 .footer-link-list, .horizontal-mobile {
   grid-column-gap: 1.5rem;
-  grid-row-gap: 1.5rem;
+  grid-row-gap: 0.5rem;
   justify-content: flex-start;
   align-items: center;
   display: flex;
+  flex-wrap: wrap;
 }
 
 .footer-link {
