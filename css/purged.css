@@ -312,8 +312,9 @@ button, [type="button"], [type="reset"] {
 
 label {
   margin-bottom: 5px;
-  font-weight: bold;
+  font-weight: 500;
   display: block;
+  color: #535956;
 }
 
 .w-container {

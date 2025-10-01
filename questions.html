@@ -4,73 +4,324 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Haven Questionnaire</title>
+
+    <!-- Base CSS (your site’s existing stylesheet) -->
+    <link rel="stylesheet" href="css/purged.css" type="text/css" />
+
+    <!-- Questionnaire-specific CSS -->
     <link rel="stylesheet" href="css/quote.css" type="text/css" />
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
   </head>
   <body>
-    <div class="overlay" id="overlay">
-      <div class="questionnaire">
-        <h1>We’d love your thoughts!</h1>
-        <p class="intro">
-          Your feedback helps us improve. Answer a few quick questions.
-        </p>
-
-        <form id="surveyForm">
-          <div class="question">
-            <label for="q1">How easy was it to use our service?</label>
-            <select id="q1" name="ease">
-              <option value="">Select</option>
-              <option value="very_easy">Very easy</option>
-              <option value="easy">Easy</option>
-              <option value="neutral">Neutral</option>
-              <option value="hard">Hard</option>
-              <option value="very_hard">Very hard</option>
-            </select>
+    <section class="question-hero">
+      <div
+        data-animation="default"
+        data-collapse="small"
+        data-duration="400"
+        data-easing="ease"
+        data-easing2="ease"
+        role="banner"
+        class="navbar w-nav"
+      >
+        <div class="div-block-3">
+          <div class="div-block-2">
+            <a href="#" class="brand w-nav-brand">
+              <img src="images/logo.svg" loading="lazy" alt="" />
+            </a>
           </div>
-
-          <div class="question">
-            <label for="q2">Which feature did you enjoy most?</label>
-            <input
-              type="text"
-              id="q2"
-              name="favorite_feature"
-              placeholder="Type your answer here"
-            />
+          <nav role="navigation" class="nav-menu w-nav-menu">
+            <a href="#" class="text w-nav-link">How it works</a>
+            <a href="#" class="text w-nav-link">Whitepaper</a>
+            <div class="w-layout-vflex">
+              <a
+                href="/questions.html"
+                class="button-primary small outline w-button"
+                >Join now</a
+              >
+            </div>
+          </nav>
+          <div class="menu-button w-nav-button">
+            <div class="w-icon-nav-menu"></div>
           </div>
-
-          <div class="question">
-            <label for="q3">How likely are you to recommend us?</label>
-            <select id="q3" name="recommend">
-              <option value="">Select</option>
-              <option value="very_likely">Very likely</option>
-              <option value="likely">Likely</option>
-              <option value="neutral">Neutral</option>
-              <option value="unlikely">Unlikely</option>
-              <option value="very_unlikely">Very unlikely</option>
-            </select>
-          </div>
-
-          <div class="question">
-            <label for="q4">Any ideas to improve?</label>
-            <textarea
-              id="q4"
-              name="improvements"
-              placeholder="Your suggestions"
-            ></textarea>
-          </div>
-
-          <div class="button-wrapper">
-            <button type="submit">Submit Feedback</button>
-          </div>
-        </form>
+        </div>
       </div>
-    </div>
+      <div class="quote-wrapper">
+        <div class="quote-container">
+          <form
+            id="havenForm"
+            name="haven-questionnaire"
+            method="POST"
+            data-netlify="true"
+            netlify-honeypot="bot-field"
+            class="quote-form"
+          >
+            <input type="hidden" name="form-name" value="haven-questionnaire" />
+            <p class="honeypot-field">
+              <label>
+                Don’t fill this out if you’re human: <input name="bot-field" />
+              </label>
+            </p>
+
+            <div class="form-group">
+              <h2 class="form_h2">
+                👋 Haven’s still being built, and your thoughts can shape it.
+              </h2>
+              <label class="form_h2">Which of these best describes you?</label>
+              <div
+                style="
+                  display: flex;
+                  flex-wrap: wrap;
+                  gap: 0.5rem;
+                  padding-top: 24px;
+                "
+              >
+                <label class="label_button"
+                  ><input type="radio" name="identity" value="Student" />
+                  Student</label
+                >
+                <label class="label_button"
+                  ><input type="radio" name="identity" value="Working" />
+                  Working</label
+                >
+                <label class="label_button"
+                  ><input type="radio" name="identity" value="Parent" />
+                  Parent</label
+                >
+                <label class="label_button"
+                  ><input type="radio" name="identity" value="Other" />
+                  Other</label
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="q2" class="form_h2"
+                >What’s one challenge or feeling that really drags you
+                down?</label
+              >
+              <div class="options-list">
+                <label class="label_button"
+                  ><input type="checkbox" name="q2[]" value="Stress" />
+                  Stress</label
+                >
+                <label class="label_button"
+                  ><input type="checkbox" name="q2[]" value="Anxiety" />
+                  Anxiety</label
+                >
+                <label class="label_button"
+                  ><input type="checkbox" name="q2[]" value="Loneliness" />
+                  Loneliness</label
+                >
+                <label class="label_button"
+                  ><input type="checkbox" name="q2[]" value="Overthinking" />
+                  Overthinking</label
+                >
+                <label class="label_button"
+                  ><input type="checkbox" name="q2[]" value="Procrastination" />
+                  Procrastination</label
+                >
+                <label class="label_button"
+                  ><input type="checkbox" name="q2[]" value="Burnout" />
+                  Burnout</label
+                >
+                <label class="label_button"
+                  ><input
+                    type="checkbox"
+                    name="q2[]"
+                    value="Other"
+                    class="other-checkbox"
+                  />
+                  Other</label
+                >
+              </div>
+
+              <!-- Hidden text input for "Other" -->
+              <input
+                type="text"
+                id="q2-other"
+                name="q2-other"
+                placeholder="Type your own answer..."
+                style="
+                  display: none;
+                  margin-top: 0.75rem;
+                  flex: 1;
+                  padding: 1rem 2rem;
+                  border: 1px solid #ddd;
+                  border-radius: 0.5rem;
+                  font-size: 1rem;
+                  width: 100%;
+                "
+                class=""
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form_h2"
+                >How much does this affect your daily life?</label
+              >
+              <div
+                style="
+                  display: flex;
+                  flex-wrap: wrap;
+                  gap: 0.5rem;
+                  padding-top: 24px;
+                "
+              >
+                <label class="label_button"
+                  ><input type="radio" name="impact" value="A little" /> A
+                  little</label
+                >
+                <label class="label_button"
+                  ><input type="radio" name="impact" value="Somewhat" />
+                  Somewhat</label
+                >
+                <label class="label_button"
+                  ><input type="radio" name="impact" value="A lot" /> A
+                  lot</label
+                >
+                <label class="label_button"
+                  ><input type="radio" name="impact" value="Every day" /> Every
+                  day</label
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form_h2"
+                >Have you already tried apps, therapy, or self-help to
+                cope?</label
+              >
+              <div
+                style="
+                  display: flex;
+                  flex-wrap: wrap;
+                  gap: 0.5rem;
+                  padding-top: 24px;
+                "
+              >
+                <label class="label_button"
+                  ><input type="radio" name="tried" value="Yes" /> Yes</label
+                >
+                <label class="label_button"
+                  ><input type="radio" name="tried" value="No" /> No</label
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form_h2"
+                >If you could design perfect support, what would it
+                include?</label
+              >
+              <textarea
+                name="idealSupport"
+                class="form-textarea"
+                placeholder="Your dream support..."
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label for="name-email" class="form_h2">Your Details</label>
+              <div class="input-row">
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Name"
+                  required
+                />
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Email"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <h2 class="form_h2">
+                💙 Thanks for sharing — you’re helping us build Haven for you.
+              </h2>
+              <button type="submit" class="submit-button">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const checkboxes = document.querySelectorAll('input[name="q2[]"]');
+        const otherCheckbox = document.querySelector(".other-checkbox");
+        const otherInput = document.getElementById("q2-other");
+
+        checkboxes.forEach((cb) => {
+          cb.addEventListener("change", () => {
+            if (otherCheckbox.checked) {
+              // Show textbox if "Other" is selected
+              otherInput.style.display = "block";
+              otherInput.focus();
+            } else {
+              // Hide textbox if "Other" is unselected
+              otherInput.style.display = "none";
+              otherInput.value = "";
+            }
+
+            // If "Other" was checked but now another option is selected, hide "Other"
+            if (cb !== otherCheckbox && cb.checked && otherCheckbox.checked) {
+              otherCheckbox.checked = false;
+              otherInput.style.display = "none";
+              otherInput.value = "";
+            }
+          });
+        });
+      });
+    </script>
 
     <script>
-      const form = document.getElementById("surveyForm");
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        alert("Thanks for your feedback!");
-        form.reset();
+      document.addEventListener("DOMContentLoaded", () => {
+        const groups = Array.from(
+          document.querySelectorAll("#havenForm .form-group")
+        );
+
+        groups.forEach((group, index) => {
+          if (index !== 0) {
+            gsap.set(group, { autoAlpha: 0.2 });
+          }
+        });
+
+        let currentIndex = 0;
+
+        const showNext = () => {
+          const next = groups[currentIndex + 1];
+          if (!next) return;
+          gsap.to(next, { autoAlpha: 1, duration: 0.6, ease: "power2.out" });
+          gsap.to(window, {
+            scrollTo: { y: next, offsetY: 100 },
+            duration: 1.2,
+            ease: "power2.out",
+          });
+          currentIndex++;
+        };
+
+        groups.forEach((group, index) => {
+          const inputs = group.querySelectorAll("input, textarea");
+          inputs.forEach((input) => {
+            input.addEventListener("change", () => {
+              if (index === currentIndex) {
+                showNext();
+              }
+            });
+            input.addEventListener("blur", () => {
+              if (index === currentIndex && input.value.trim() !== "") {
+                showNext();
+              }
+            });
+          });
+        });
       });
     </script>
   </body>
